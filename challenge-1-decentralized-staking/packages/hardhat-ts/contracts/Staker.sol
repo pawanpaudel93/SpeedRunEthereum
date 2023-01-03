@@ -47,12 +47,12 @@ contract Staker {
     }
   }
 
-  function withdraw(address withdrawAddress) public notCompleted {
+  function withdraw() public notCompleted {
     uint256 withdrawAmount = balances[msg.sender];
     require(withdrawAmount > 0, 'Not enough funds');
     require(openForWithdraw, "Can't withdraw before execute");
     balances[msg.sender] = 0;
-    (bool sent, ) = withdrawAddress.call{value: withdrawAmount}('');
+    (bool sent, ) = msg.sender.call{value: withdrawAmount}('');
     require(sent, 'Could not send');
   }
 
